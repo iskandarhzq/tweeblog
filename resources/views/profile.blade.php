@@ -22,7 +22,7 @@
                         <div class="image-upload d-flex justify-content-center flex-column">
                             <label for="file-input">
                                 @if(!empty($user->image_file))
-                                <img src="storage/image/{{$user->image_file}}" alt="" class="rounded-circle border mx-auto d-block" style="height: 128px;">
+                                <img src="{{ asset("storage/image/$user->image_file") }}" alt="" class="rounded-circle border mx-auto d-block" style="height: 128px;">
                                 @else
                                 <img src="{{ asset('img/avatar.png') }}" alt="" class="rounded-circle border mx-auto d-block" style="height: 128px;">
                                 @endif
@@ -79,7 +79,7 @@
                                         <div class="d-flex">
                                             <button type="button" class="btn btn-outline-info me-2" data-bs-toggle="modal" data-bs-target="#editpost-{{ $post->id }}"><i class="bx bx-pen bx-flashing-hover pe-2"></i>Edit</button>
                                             <!--<a href="#" class="btn btn-outline-info me-2"><i class="bx bx-pen bx-flashing-hover pe-2"></i>Edit</a>-->
-                                            <button type="button" class="btn btn-outline-danger me-2" data-bs-toggle="modal" data-bs-target="#deletepost-{{ $post->id }}"><i class="bx bx-error-circle bx-flashing-hover pe-2"></i>Danger</button>
+                                            <button type="button" class="btn btn-outline-danger me-2" data-bs-toggle="modal" data-bs-target="#deletepost-{{ $post->id }}"><i class="bx bx-error-circle bx-flashing-hover pe-2"></i>Delete</button>
                                         </div>
                                         @endif
                                     @endif   

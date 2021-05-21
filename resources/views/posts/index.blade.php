@@ -2,7 +2,7 @@
 
 @section('content')
         <div class="row">
-            <div class="col-3">
+            <div class="col-md-3 col-sm-3">
                     <div class="card" style="position:fixed;">
                         <div class="card-body">
                             <h5 style="padding-right:12rem;">Trending</h5>
@@ -11,7 +11,7 @@
                         </div>
                     </div>
             </div>
-            <div class="col-7">
+            <div class="col-md-7 col-sm-7">
                 @if(count($posts) > 0) 
                 @foreach($posts as $post)
                     <div class="card">
@@ -43,7 +43,7 @@
                                         <div class="d-flex">
                                             <button type="button" class="btn btn-outline-info me-2" data-bs-toggle="modal" data-bs-target="#editpost-{{ $post->id }}"><i class="bx bx-pen bx-flashing-hover pe-2"></i>Edit</button>
                                             <!--<a href="#" class="btn btn-outline-info me-2"><i class="bx bx-pen bx-flashing-hover pe-2"></i>Edit</a>-->
-                                            <button type="button" class="btn btn-outline-danger me-2" data-bs-toggle="modal" data-bs-target="#deletepost-{{ $post->id }}"><i class="bx bx-error-circle bx-flashing-hover pe-2"></i>Danger</button>
+                                            <button type="button" class="btn btn-outline-danger me-2" data-bs-toggle="modal" data-bs-target="#deletepost-{{ $post->id }}"><i class="bx bx-error-circle bx-flashing-hover pe-2"></i>Delete</button>
                                         </div>
                                     @endif   
                                 @endif    
@@ -105,7 +105,7 @@
                 </div>     
             @endif
             </div>
-            <div class="col-2">
+            <div class="col-md-2 col-sm-2">
                 <nav id="selector" class="nav-menu navbar position-fixed ps-3">
                     <ul>
                         <li>
