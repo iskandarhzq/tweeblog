@@ -30,11 +30,15 @@
 </head>
 <body>
     <!-- Navbar Header -->
-    <header>
+    <header class="sticky-md-top">
         <!-- Fixed navbar -->
         <nav class="navbar navbar-expand-md navbar-dark bg-dark">
           <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">Tweeblog</a>
+            @if(!Auth::guest())
+            <a class="navbar-brand" href="{{ url('/posts') }}">Tweeblog</a>
+            @else
+            <a class="navbar-brand" href="{{ url('/') }}">Tweeblog</a>   
+            @endif
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
               </button>
@@ -69,11 +73,12 @@
                               </a>
 
                               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ url('/profile') }}">Profile</a>   
                                   <a class="dropdown-item" href="{{ route('logout') }}"
                                      onclick="event.preventDefault();
                                                    document.getElementById('logout-form').submit();">
                                       {{ __('Logout') }}
-                                  </a>
+                                  </a>                              
 
                                   <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                       @csrf
@@ -114,6 +119,11 @@
   
     <!-- Template Main JS File -->
     <script src="{{ asset('js/main.js') }}"></script>
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+
+    <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+    <script>
+        CKEDITOR.replace('article-ckeditor');
+    </script>
 </body>
 </html>

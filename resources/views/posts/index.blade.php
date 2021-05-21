@@ -1,55 +1,57 @@
 @extends('layouts.app')
 
 @section('content')
-        <div class="row justify-content-end">
+        <div class="row">
             <div class="col-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h5>Trending</h5>
-                        <hr>
-                        <p>#1 Haziq Macho</p>
+                    <div class="card" style="position:fixed;">
+                        <div class="card-body">
+                            <h5 style="padding-right:12rem;">Trending</h5>
+                            <hr>
+                            <p>#1 Haziq Macho</p>
+                        </div>
                     </div>
-                </div>
             </div>
             <div class="col-7">
                 @if(count($posts) > 0) 
                 @foreach($posts as $post)
                     <div class="card">
                         <div class="card-body">
-                            <a href="/posts/{{ $post->id }}"><h3>{{ $post->title }}</h3></a>
                             @if(count($users) > 0)
                                 @foreach($users as $user)
                                     @if($post->user_id == $user['id'])
-                                        <small>by {{ $user['name'] }}</small>
-                                        @break
+                                        <div class="d-flex align-items-center mb-3">
+                                            @if(!empty($user['image_file']))
+                                            <img src="storage/image/{{ $user['image_file'] }}" alt="" class="rounded-circle border d-block me-2" style="height: 50px;">
+                                            @else
+                                            <img src="{{ asset('img/avatar.png') }}" alt="" class="rounded-circle border d-block me-2" style="height: 50px;">
+                                            @endif
+                                            <h5>{{ $user['name'] }}</h5>
+                                        </div>
+                                        @break  
                                     @endif    
                                 @endforeach
                             @else
                                 <small>by Anon</small>
                             @endif
+                            <a href="/posts/{{ $post->id }}"><h5>{{ $post->title }}</h5></a>
                             <h5>{{ $post->body }}</h5>
                             <hr>
                             <div class="d-flex justify-content-between">
                                 <small>Written on {{ $post->created_at }}</small>
-                                @foreach($users as $user)
-                                    @if($user['name'] == Auth::user()->name and $post->user_id == Auth::user()->id )
+                                @if(!Auth::guest())
+                                    @if($post->user_id == Auth::user()->id )
                                         <div class="d-flex">
-                                            <li>
-                                                <button type="button" class="btn btn-outline-info me-2" data-bs-toggle="modal" data-bs-target="#editpost-{{ $post->id }}">
-                                                    <i class="bx bx-pen bx-flashing-hover pe-2"></i>Edit
-                                                    </button>
-                                            </li>
+                                            <button type="button" class="btn btn-outline-info me-2" data-bs-toggle="modal" data-bs-target="#editpost-{{ $post->id }}"><i class="bx bx-pen bx-flashing-hover pe-2"></i>Edit</button>
                                             <!--<a href="#" class="btn btn-outline-info me-2"><i class="bx bx-pen bx-flashing-hover pe-2"></i>Edit</a>-->
-                                            <a href="#" class="btn btn-outline-danger"><i class="bx bx-error-circle bx-flashing-hover pe-2"></i>Delete</a>
+                                            <button type="button" class="btn btn-outline-danger me-2" data-bs-toggle="modal" data-bs-target="#deletepost-{{ $post->id }}"><i class="bx bx-error-circle bx-flashing-hover pe-2"></i>Danger</button>
                                         </div>
-                                        @break
-                                    @endif
-                                @endforeach    
+                                    @endif   
+                                @endif    
                             </div>
                         </div>
                     </div>
 
-      <!-- Modal -->
+      <!-- Modal Edit -->
       <div class="modal fade" id="editpost-{{ $post->id }}" tabindex="-1" aria-labelledby="editpost-{{ $post->id }}Label" aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
@@ -71,14 +73,40 @@
             </form>
           </div>
         </div>
-      </div>                    
+      </div> 
+      
+        <!-- Modal Delete-->
+        <div class="modal fade" id="deletepost-{{ $post->id }}" tabindex="-1" aria-labelledby="#deletepost-{{ $post->id }}Label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/posts/{{$post->id}}" method="post">
+                    @csrf
+                    {{ method_field('DELETE') }}
+                    <div class="modal-body">
+                        <h5>Are you sure want to delete this post?</h5>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Delete Post</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+            </div>         
                 @endforeach    
             @else
-                <p>Oops! No posts found.</p>       
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Oops! No posts found.</h3>  
+                    </div>
+                </div>     
             @endif
             </div>
             <div class="col-2">
-                <nav id="selector" class="nav-menu navbar">
+                <nav id="selector" class="nav-menu navbar position-fixed ps-3">
                     <ul>
                         <li>
                             <button type="button" class="btn btn-md btn-dark px-2 py-2" data-bs-toggle="modal" data-bs-target="#quickpost">
@@ -108,7 +136,7 @@
             @csrf
             <div class="modal-body">
                 <input type="text" name="title" class="form-control mb-2" placeholder="Your title here"/>
-                <textarea name="body" id="" cols="30" rows="10" class="form-control" placeholder="Your message here"></textarea>
+                <textarea name="body" id="article-ckeditor" cols="30" rows="10" class="form-control" placeholder="Your message here"></textarea>
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

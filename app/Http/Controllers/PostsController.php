@@ -13,6 +13,12 @@ class PostsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        // $this->middleware('auth', ['except' => ['index', 'show']]);
+        $this->middleware('auth');
+    }
+
     public function index()
     {   
         //$posts = Post::orderBy('created_at', 'desc')->paginate(<desire limit page>);
@@ -21,6 +27,9 @@ class PostsController extends Controller
         $users = User::all();
 
         return view('posts.index', ['posts' => $posts, 'users' => $users->toArray()]);
+
+        // $posts = Post::with('user')->orderBy('created_at', 'desc')->get();
+        // return view('posts.index', ['posts' => $posts]);
     }
 
     /**
@@ -114,5 +123,9 @@ class PostsController extends Controller
     public function destroy($id)
     {
         //
+        $post = Post::find($id);
+        $post->delete();
+
+        return redirect('/posts');
     }
 }
