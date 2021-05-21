@@ -32,6 +32,13 @@ class HomeController extends Controller
         return view('profile', ['posts' => $user->posts->sortByDesc('created_at'), 'user' => $user]);
     }
 
+    public function show($id)
+    {
+        $user = User::find($id);
+        // return view('profile')->with('posts', $user->posts);
+        return view('profile', ['posts' => $user->posts->sortByDesc('created_at'), 'user' => $user]);
+    }
+
     public function update(Request $request)
     {   
         $this->validate($request, [

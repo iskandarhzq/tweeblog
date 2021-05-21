@@ -6,7 +6,11 @@
         <div class="col-md-3">
             <div class="card">
                 <div class="card-header">
-                    {{ Auth::user()->name }}
+                    @if (Auth::user()->id != $user->id)
+                        {{ $user->name }}
+                    @else
+                        {{ Auth::user()->name }}
+                    @endif
                 </div>
                 <div class="card-body">
                     <!--<div class="text-center">
@@ -23,15 +27,17 @@
                                 <img src="{{ asset('img/avatar.png') }}" alt="" class="rounded-circle border mx-auto d-block" style="height: 128px;">
                                 @endif
                             </label>
-                          
+                            
+                            @if (Auth::user()->id == $user->id)
                             <input id="file-input" type="file" name="image_file"/>
                             <div class="image-upload mt-2 d-flex justify-content-center">
                                 <label for="file-input-2">
-                                    <i class="btn btn-info bx bx-upload text-white me-2"></i>
+                                    <i class="btn btn-info bx bx-sm bx-cloud-upload text-white me-2"></i>
                                 </label>
                                 <input id="file-input-2" type="file" name="image_file"/>
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </div>
+                            @endif
                         </div>
 
                     </form>
@@ -45,10 +51,12 @@
                             </li>
                           <li><a href="{{ url('/') }}" class="nav-link"><i class="bx bx-home"></i><span class="text-dark">All Post</span></a></li>
                           <li><a href="{{ url('/about') }}" class="nav-link"><i class="bx bx-user"></i> <span class="text-dark">Liked Post</span></a></li>
+                          <li><a href="{{ url('/artwork') }}" class="nav-link"><i class="bx bx-book-content"></i> <span class="text-dark">Direct Message</span></a></li>
+                          @if (Auth::user()->id == $user->id)
                           <li><a href="{{ url('/projects') }}" class="nav-link"><i class="bx bx-file-blank"></i> <span class="text-dark">Notifications</span></a></li>
-                          <li><a href="{{ url('/artwork') }}" class="nav-link"><i class="bx bx-book-content"></i> <span class="text-dark">Messages</span></a></li>
                           <li><a href="{{ url('/resume') }}" class="nav-link"><i class="bx bx-server"></i> <span class="text-dark">Bookmark</span></a></li>
                           <li><a href="{{ url('/contact') }}" class="nav-link"><i class="bx bx-envelope"></i> <span class="text-dark">More</span></a></li>
+                          @endif
                         </ul>
                       </div>
                 </div>
@@ -67,11 +75,13 @@
                                 <small>Written on {{ $post->created_at }}</small>
                                 @if(!Auth::guest())
                                     @if($post->user_id == Auth::user()->id )
+                                        @if (Auth::user()->id == $user->id)
                                         <div class="d-flex">
                                             <button type="button" class="btn btn-outline-info me-2" data-bs-toggle="modal" data-bs-target="#editpost-{{ $post->id }}"><i class="bx bx-pen bx-flashing-hover pe-2"></i>Edit</button>
                                             <!--<a href="#" class="btn btn-outline-info me-2"><i class="bx bx-pen bx-flashing-hover pe-2"></i>Edit</a>-->
                                             <button type="button" class="btn btn-outline-danger me-2" data-bs-toggle="modal" data-bs-target="#deletepost-{{ $post->id }}"><i class="bx bx-error-circle bx-flashing-hover pe-2"></i>Danger</button>
                                         </div>
+                                        @endif
                                     @endif   
                                 @endif    
                             </div>

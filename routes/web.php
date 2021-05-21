@@ -29,4 +29,6 @@ Auth::routes();
 
 Route::get('/profile', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::get('/profile/{id}', [App\Http\Controllers\HomeController::class, 'show'])->name('show');
+
 Route::put('/profile/{id}/edit', [App\Http\Controllers\HomeController::class, 'update']);

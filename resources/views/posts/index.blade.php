@@ -21,11 +21,11 @@
                                     @if($post->user_id == $user['id'])
                                         <div class="d-flex align-items-center mb-3">
                                             @if(!empty($user['image_file']))
-                                            <img src="storage/image/{{ $user['image_file'] }}" alt="" class="rounded-circle border d-block me-2" style="height: 50px;">
+                                                <img src="storage/image/{{ $user['image_file'] }}" alt="" class="rounded-circle border d-block me-2" style="height: 50px;">
                                             @else
-                                            <img src="{{ asset('img/avatar.png') }}" alt="" class="rounded-circle border d-block me-2" style="height: 50px;">
+                                                <img src="{{ asset('img/avatar.png') }}" alt="" class="rounded-circle border d-block me-2" style="height: 50px;">
                                             @endif
-                                            <h5>{{ $user['name'] }}</h5>
+                                            <h5><a href="profile/{{ $user['id'] }}">{{ $user['name'] }}</a></h5>
                                         </div>
                                         @break  
                                     @endif    
